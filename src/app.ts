@@ -23,27 +23,25 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-
 // not found route handler
-app.all("*", (req: Request, res: Response) => {
+app.all('*', (req: Request, res: Response) => {
   res.status(404).send({
     success: false,
     message: 'Route not found',
   });
-})
+});
 
 // global error handler
-app.use((error:any, req: Request, res:Response, next: NextFunction) => {
-  if (error){
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  if (error) {
     res.status(400).send({
       success: false,
       message: error.message || 'Something went wrong',
       error: error,
     });
-  } else{
+  } else {
     next();
   }
-})
-
+});
 
 export default app;

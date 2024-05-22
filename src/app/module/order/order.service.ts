@@ -10,7 +10,7 @@ const createOrderIntoDB = async (order: TOrder) => {
   const productToOrder = await ProductModel.findOne({
     _id: new MObjectId(order.productId),
   });
-  if(!productToOrder){
+  if (!productToOrder) {
     return false;
   }
 
@@ -19,14 +19,20 @@ const createOrderIntoDB = async (order: TOrder) => {
   const remainingQty = inventoryQty - order.quantity;
 
   if (remainingQty < 0) {
-    return "stock out";
-  } else if ((remainingQty === 0)) {
-    await ProductModel.updateOne({ _id: new MObjectId(order.productId)}, {$set: {inventory: {quantity: remainingQty, inStock: false}}})
+    return 'stock out';
+  } else if (remainingQty === 0) {
+    await ProductModel.updateOne(
+      { _id: new MObjectId(order.productId) },
+      { $set: { inventory: { quantity: remainingQty, inStock: false } } },
+    );
 
     const result = await OrderModel.create(order);
     return result;
   } else {
-    await ProductModel.updateOne({ _id: new MObjectId(order.productId)}, {$set: {inventory: {quantity: remainingQty, inStock: true}}})
+    await ProductModel.updateOne(
+      { _id: new MObjectId(order.productId) },
+      { $set: { inventory: { quantity: remainingQty, inStock: true } } },
+    );
     const result = await OrderModel.create(order);
     return result;
   }

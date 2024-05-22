@@ -41,16 +41,18 @@ const getAllProducts = async (req: Request, res: Response) => {
   try {
     const searchQueryValue = req.query.searchTerm;
     if (searchQueryValue) {
-        // get search products
-        const result = await ProductServices.searchProductsFromDB(searchQueryValue as string);
+      // get search products
+      const result = await ProductServices.searchProductsFromDB(
+        searchQueryValue as string,
+      );
 
-        res.status(200).json({
-            success: true,
-            message: 'Products from search retrieved successfully',
-            data: result,
-          });
+      res.status(200).json({
+        success: true,
+        message: 'Products from search retrieved successfully',
+        data: result,
+      });
     } else {
-        // get all products
+      // get all products
       const result = await ProductServices.getAllProductsFromDB();
 
       res.status(200).json({
@@ -133,11 +135,10 @@ const deleteSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
-
 export const ProductControllers = {
   createProduct,
   getAllProducts,
   getSingleProduct,
   updateSingleProduct,
-  deleteSingleProduct
+  deleteSingleProduct,
 };

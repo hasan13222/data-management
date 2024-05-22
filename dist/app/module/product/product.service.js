@@ -8,13 +8,51 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductServices = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const product_model_1 = require("./product.model");
+// create new product service
 const createProductIntoDB = (product) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_model_1.ProductModel.create(product);
     return result;
 });
+// get all products service
+const getAllProductsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.ProductModel.find();
+    return result;
+});
+// get single porduct by id
+const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const MObjectId = mongoose_1.default.Types.ObjectId;
+    const result = yield product_model_1.ProductModel.findOne({ _id: new MObjectId(id) });
+    return result;
+});
+// update a single product by id pararams
+const updateSingleProductInDB = (id, updatedDoc) => __awaiter(void 0, void 0, void 0, function* () {
+    const MObjectId = mongoose_1.default.Types.ObjectId;
+    const result = yield product_model_1.ProductModel.findOneAndUpdate({ _id: new MObjectId(id) }, { $set: updatedDoc }, { returnDocument: "after" });
+    return result;
+});
+// delete a single product by id pararams
+const deleteSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const MObjectId = mongoose_1.default.Types.ObjectId;
+    const result = yield product_model_1.ProductModel.deleteOne({ _id: new MObjectId(id) });
+    return result;
+});
+// delete a single product by id pararams
+const searchProductsFromDB = (queryValue) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.ProductModel.find({ $or: [{ name: new RegExp(queryValue, 'i') }, { tags: queryValue }] });
+    return result;
+});
 exports.ProductServices = {
-    createProductIntoDB
+    createProductIntoDB,
+    getAllProductsFromDB,
+    getSingleProductFromDB,
+    updateSingleProductInDB,
+    deleteSingleProductFromDB,
+    searchProductsFromDB
 };

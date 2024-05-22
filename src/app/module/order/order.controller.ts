@@ -9,15 +9,26 @@ const createOrder = async (req: Request, res: Response) => {
     const newOrderValue = orderValidationSchema.parse(newOrder);
 
     const result = await OrderServices.createOrderIntoDB(newOrderValue);
-
-    res.status(200).json({
-      success: true,
-      message: 'Order created successfully',
-      data: result,
-    });
+    if (!result) {
+      res.status(500).json({
+        success: true,
+        message: 'Order not found',
+      });
+    } else if (result === 'stock out') {
+      res.status(500).json({
+        success: true,
+        message: 'Insufficient quantity available in inventory',
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'Order created successfully',
+        data: result,
+      });
+    }
   } catch (error: any) {
     res.status(500).json({
-      success: true,
+      success: false,
       message: error.message || 'Something went wrong',
       error: error,
     });

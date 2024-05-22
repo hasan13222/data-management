@@ -28,9 +28,25 @@ const updateSingleProductInDB = async (id: string, updatedDoc: TUpdateProduct) =
     return result;
 }
 
+// delete a single product by id pararams
+const deleteSingleProductFromDB = async (id: string) => {
+    const MObjectId = mongoose.Types.ObjectId;
+    const result = await ProductModel.deleteOne({_id: new MObjectId(id)});
+    return result;
+}
+
+
+// delete a single product by id pararams
+const searchProductsFromDB = async (queryValue: string) => {
+    const result = await ProductModel.find({$or: [{name: new RegExp(queryValue, 'i')}, {tags: queryValue}]});
+    return result;
+}
+
 export const ProductServices = {
     createProductIntoDB,
     getAllProductsFromDB,
     getSingleProductFromDB,
-    updateSingleProductInDB
+    updateSingleProductInDB,
+    deleteSingleProductFromDB,
+    searchProductsFromDB
 }

@@ -21,3 +21,19 @@ export interface TProduct {
     variants: TVariants[];
     inventory: TInventory;
 }
+
+
+
+
+
+
+// interface for updateDoc
+export interface TUpdateProduct {
+    name?: string;
+    description?: string;
+    price?: number;
+    category?: string;
+    tags?: string[];
+    variants?: TVariants[];
+    inventory?: TInventory;
+}

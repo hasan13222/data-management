@@ -25,3 +25,30 @@ const productValidationSchema = z.object({
 })
 
 export default productValidationSchema;
+
+
+// update Schema
+
+// varinats schema update validator
+const variantsUpdateSchema = z.object({
+    type: z.string(),
+    value: z.string()
+})
+
+// inventory schema update validator
+const inventoryUpdateSchema = z.object({
+    quantity: z.number(),
+    inStock: z.boolean()
+})
+
+// Main Schema - Product Schema update validator
+export const productUpdateValidationSchema = z.object({
+    name: z.string().optional(),
+    description: z.string().optional(),
+    price: z.number().optional(),
+    category: z.string().optional(),
+    tags:z.string().array().optional(),
+    variants: z.array(variantsUpdateSchema).optional(),
+    inventory: inventoryUpdateSchema.optional()
+})
+

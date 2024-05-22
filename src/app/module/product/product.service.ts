@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { TProduct } from "./product.interface";
+import { TProduct, TUpdateProduct } from "./product.interface";
 import { ProductModel } from "./product.model";
 
 // create new product service
@@ -21,8 +21,16 @@ const getSingleProductFromDB = async (id: string) => {
     return result;
 }
 
+// update a single product by id pararams
+const updateSingleProductInDB = async (id: string, updatedDoc: TUpdateProduct) => {
+    const MObjectId = mongoose.Types.ObjectId;
+    const result = await ProductModel.findOneAndUpdate({_id: new MObjectId(id)}, {$set: updatedDoc}, {returnDocument: "after"});
+    return result;
+}
+
 export const ProductServices = {
     createProductIntoDB,
     getAllProductsFromDB,
-    getSingleProductFromDB
+    getSingleProductFromDB,
+    updateSingleProductInDB
 }

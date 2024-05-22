@@ -1,3 +1,4 @@
+
 // varannts type
 export type TVariants = {
     type: string;
